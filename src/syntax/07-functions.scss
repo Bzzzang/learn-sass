@@ -1,0 +1,67 @@
+@use "sass:meta";
+@use "sass:math";
+
+$nothing: null;
+$num: 101;
+$unit: 180px;
+$pretendard: Pretendard;
+$spoqa: "Spoqa Han Sans Neo";
+$hex: #f94e07;
+$keyword: purple;
+$color-function: hsl(18, 95%, 50%);
+
+// @debug meta.type-of($nothing); // Debug: null
+// @debug meta.type-of($num); // Debug: number
+// @debug meta.type-of($unit); // Debug: number
+// @debug meta.type-of($pretendard); // Debug: string
+// @debug meta.type-of($spoqa); // Debug: string
+// @debug meta.type-of($hex); // Debug: color
+// @debug meta.type-of($keyword); // Debug: color
+// @debug meta.type-of($color-function); // Debug: color
+
+@function getUnit($value) {
+  @return math.unit($value);
+}
+
+$value-1: 10px;
+$value-2: 5px;
+
+.container {
+  animation-delay: 9s+21s;
+  // width: $value-1 + $value-2;
+  // block-size: calc($value-1 - $value-2);
+  // inline-size: $value-1 * $value-2;
+  width: math.div($value-1, $value-2);
+}
+
+@debug $value-1 * $value-2;
+@debug "Helvetica" + " " + "Neue"; // 'Helvetica Neue'
+
+$word1: "Helvetica";
+$word2: "Neue";
+$word3: sans;
+$word4: serif;
+
+@debug (5px 7px 10px) != (5px, 7px, 10px); //true
+
+// 단위를 제거하는 함수
+// 나눗셈 연산 (10px / 5px => 2)
+@function removeUnit($value) {
+  @return math.div($value, ($value * 0 + 1));
+}
+
+@function rem($value, $base: 16) {
+  @return math.div(removeUnit($value), $base) * 1rem;
+}
+
+@function em($value, $base) {
+  @return math.div(removeUnit($value), $base) * 1em;
+}
+
+.box {
+  font-family: #{$word1 $word2};
+  line-height: removeUnit(2rem);
+  font-size: em(24px, 12);
+}
+
+// @debug 1.5rem * 0;
