@@ -1,0 +1,84 @@
+@mixin resetList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// 100px의 가로 크기
+@mixin width($width) {
+  width: $width;
+  inline-size: $width;
+}
+
+@mixin flexbox($direction, $justify, $align, $wrap, $content) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+  align-content: $content;
+}
+
+@mixin hover() {
+  &:hover {
+    background-color: aquamarine;
+    color: white;
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin mq($type) {
+  @if $type == "mobile" {
+    @media (max-width: 768px) {
+      @content;
+    }
+  }
+  @if $type == "desktop" {
+    @media (min-width: 768px) {
+      @content;
+    }
+  }
+}
+
+.box {
+  margin: 10px;
+
+  @include mq("desktop") {
+    margin: 15px;
+  }
+}
+
+div {
+  @include flexbox(column, center, center, nowrap, center);
+  @include hover {
+    font-size: 1.75rem;
+  }
+}
+
+p:hover {
+  background-color: aquamarine;
+  color: white;
+}
+
+ul {
+  background-color: pink;
+  @include resetList;
+}
+
+ol {
+  font-size: 1.25rem;
+  @include resetList;
+  @include width(200px);
+}
